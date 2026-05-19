@@ -22,15 +22,11 @@ final class GildedRose
                         $this->decreaseQuality($item);
                 }
             } else {
-                $this->increaseQuality($item);
-                if ($this->isBackstagePass($item)) {
-                    if ($item->sellIn < 11) {
-                        $this->increaseQuality($item);
-                    }
-                    if ($item->sellIn < 6) {
-                        $this->increaseQuality($item);
-                    }
-                }
+               if($this->isBackstagePass($item)){
+                    $this->updateBackstagePass($item);
+               } else {
+                    $this->increaseQuality($item);
+               }
             }
 
             $this->decreaseSellIn($item);
@@ -79,5 +75,16 @@ final class GildedRose
 
     private function isSulfuras(Item $item): bool{
         return $item->name === 'Sulfuras, Hand of Ragnaros';
+    }
+
+    private function updateBackstagePass(Item $item): void{
+        $this->increaseQuality($item);
+        
+        if ($item->sellIn < 11) {
+            $this->increaseQuality($item);
+        }
+        if ($item->sellIn < 6) {
+            $this->increaseQuality($item);
+        }
     }
 }
