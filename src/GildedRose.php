@@ -33,9 +33,7 @@ final class GildedRose
                 }
             }
 
-            if (!$this->isSulfuras($item)) {
-                $item->sellIn = $item->sellIn - 1;
-            }
+            $this->decreaseSellIn($item);
 
             if ($item->sellIn < 0) {
                 if (!$this->isAgedBrie($item)) {
@@ -62,6 +60,12 @@ final class GildedRose
     private function increaseQuality(Item $item): void{
         if($item->quality < 50 ){
             $item->quality++;
+        }
+    }
+
+    private function decreaseSellIn(Item $item): void{
+        if(!$this->isSulfuras($item)){
+            $item->sellIn--;
         }
     }
 
