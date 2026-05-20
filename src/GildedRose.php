@@ -9,6 +9,8 @@ final class GildedRose
     private const AGED_BRIE = 'Aged Brie';
     private const BACKSTAGE_PASS = 'Backstage passes to a TAFKAL80ETC concert';
     private const SULFURAS = 'Sulfuras, Hand of Ragnaros';
+    private const CONJURED = 'Conjured Mana Cake';
+
     /**
      * @param Item[] $items
      */
@@ -59,6 +61,15 @@ final class GildedRose
         return $item->name === self::SULFURAS;
     }
 
+    private function isConjured(Item $item): bool{
+        return $item->name === self::CONJURED;
+    }
+
+    private function updateConjured(Item $item): void{
+        $this->decreaseQuality($item);
+        $this->decreaseQuality($item);
+    }
+
     private function updateBackstagePass(Item $item): void{
         $this->increaseQuality($item);
         
@@ -76,8 +87,13 @@ final class GildedRose
             return;
         }
         
-       if ($this->isBackstagePass($item)) {
+        if ($this->isBackstagePass($item)) {
             $item->quality = 0;
+            return;
+        }
+
+        if($this->isConjured($item)){
+            $this->updateConjured($item);
             return;
         }
 
@@ -94,6 +110,11 @@ final class GildedRose
         
         if($this->isAgedBrie($item)){
             $this->increaseQuality($item);
+            return;
+        }
+
+        if($this->isConjured($item)){
+            $this->updateConjured($item);
             return;
         }
 
