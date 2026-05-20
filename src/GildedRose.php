@@ -31,46 +31,55 @@ final class GildedRose
         }
     }
 
-    private function decreaseQuality(Item $item): void{
+    private function decreaseQuality(Item $item): void
+    {
         if($item->quality > 0 ){
             $item->quality--;
         }
     }
 
-    private function increaseQuality(Item $item): void{
+    private function increaseQuality(Item $item): void
+    {
         if($item->quality < 50 ){
             $item->quality++;
         }
     }
 
-    private function decreaseSellIn(Item $item): void{
+    private function decreaseSellIn(Item $item): void
+    {
         if(!$this->isSulfuras($item)){
             $item->sellIn--;
         }
     }
 
-    private function isAgedBrie(Item $item): bool{
+    private function isAgedBrie(Item $item): bool
+    {
         return $item->name === self::AGED_BRIE;
     }
 
-    private function isBackstagePass(Item $item): bool{
+    private function isBackstagePass(Item $item): bool
+    {
         return $item->name === self::BACKSTAGE_PASS;
     }
 
-    private function isSulfuras(Item $item): bool{
+    private function isSulfuras(Item $item): bool
+    {
         return $item->name === self::SULFURAS;
     }
 
-    private function isConjured(Item $item): bool{
+    private function isConjured(Item $item): bool
+    {
         return $item->name === self::CONJURED;
     }
 
-    private function updateConjured(Item $item): void{
+    private function updateConjured(Item $item): void
+    {
         $this->decreaseQuality($item);
         $this->decreaseQuality($item);
     }
 
-    private function updateBackstagePass(Item $item): void{
+    private function updateBackstagePass(Item $item): void
+    {
         $this->increaseQuality($item);
         
         if ($item->sellIn < 11) {
@@ -81,7 +90,8 @@ final class GildedRose
         }
     }
 
-    private function updateExpiredItem(Item $item): void{
+    private function updateExpiredItem(Item $item): void
+    {
         if($this->isAgedBrie($item)){
             $this->increaseQuality($item);
             return;
@@ -102,7 +112,8 @@ final class GildedRose
         }
     }
 
-    private function updateItemBeforeSellInChange(Item $item): void{
+    private function updateItemBeforeSellInChange(Item $item): void
+    {
         if($this->isBackstagePass($item)){
             $this->updateBackstagePass($item);
             return;
