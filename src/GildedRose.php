@@ -17,18 +17,7 @@ final class GildedRose
     public function updateQuality(): void
     {
         foreach ($this->items as $item) {
-            if (!$this->isAgedBrie($item) and !$this->isBackstagePass($item)) {
-                if (!$this->isSulfuras($item)) {
-                        $this->decreaseQuality($item);
-                }
-            } else {
-               if($this->isBackstagePass($item)){
-                    $this->updateBackstagePass($item);
-               } else {
-                    $this->increaseQuality($item);
-               }
-            }
-
+            $this->updateItemBeforeSellInChange($item);
             $this->decreaseSellIn($item);
 
             if ($item->sellIn < 0) {
@@ -81,10 +70,12 @@ final class GildedRose
     private function updateExpiredItem(Item $item): void{
         if($this->isAgedBrie($item)){
             $this->increaseQuality($item);
+            return;
         }
         
        if ($this->isBackstagePass($item)) {
             $item->quality = 0;
+            return;
         }
 
         if (!$this->isSulfuras($item)) {
@@ -92,4 +83,19 @@ final class GildedRose
         }
     }
 
+    private function updateItemBeforeSellInChange(Item $item): void{
+        if($this->isBackstagePass($item)){
+            $this->updateBackstagePass($item);
+            return;
+        }
+        
+        if($this->isAgedBrie($item)){
+            $this->increaseQuality($item);
+            return;
+        }
+
+        if (!$this->isSulfuras($item)) {
+            $this->decreaseQuality($item);
+        }
+    }
 }
