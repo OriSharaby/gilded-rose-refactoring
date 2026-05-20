@@ -1,148 +1,167 @@
-# GildedRose Kata - PHP Version
+# Gilded Rose Refactoring Kata (PHP)
 
-See the [top level readme](../README.md) for general information about this exercise. This is the PHP version of the
-GildedRose Kata.
+## Overview
+
+This repository contains my solution for the Gilded Rose Refactoring Kata in PHP.
+
+The goal of this exercise was to safely refactor legacy code while preserving the existing business behavior using automated tests.
+
+After completing the refactoring phase, support for the new `Conjured` item type was implemented.
+
+---
 
 ## Installation
 
-The kata uses:
+### Requirements
 
-- [8.0+](https://www.php.net/downloads.php)
-- [Composer](https://getcomposer.org)
+- PHP 8.0+
+- Composer
 
-Recommended:
+### Clone the repository
 
-- [Git](https://git-scm.com/downloads)
-
-See [GitHub cloning a repository](https://help.github.com/en/articles/cloning-a-repository) for details on how to
-create a local copy of this project on your computer.
-
-```sh
-git clone git@github.com:emilybache/GildedRose-Refactoring-Kata.git
+```bash
+git clone https://github.com/OriSharaby/gilded-rose-refactoring.git
 ```
 
-or
+### Install dependencies
 
-```shell script
-git clone https://github.com/emilybache/GildedRose-Refactoring-Kata.git
-```
-
-Install all the dependencies using composer
-
-```shell script
-cd ./GildedRose-Refactoring-Kata/php
+```bash
 composer install
 ```
 
+---
+
 ## Dependencies
 
-The project uses composer to install:
+The project uses:
 
-- [PHPUnit](https://phpunit.de/)
-- [ApprovalTests.PHP](https://github.com/approvals/ApprovalTests.php)
-- [PHPStan](https://github.com/phpstan/phpstan)
-- [Easy Coding Standard (ECS)](https://github.com/symplify/easy-coding-standard)
+- PHPUnit
+- ApprovalTests.PHP
+- PHPStan
+- Easy Coding Standard (ECS)
 
-## Folders
+---
 
-- `src` - contains the two classes:
-    - `Item.php` - this class should not be changed
-    - `GildedRose.php` - this class needs to be refactored, and the new feature added
-- `tests` - contains the tests
-    - `GildedRoseTest.php` - starter test.
-        - Tip: ApprovalTests has been included as a dev dependency, see the PHP version of
-          the [Theatrical Players Refactoring Kata](https://github.com/emilybache/Theatrical-Players-Refactoring-Kata/)
-          for an example
-- `Fixture`
-    - `texttest_fixture.php` this could be used by an ApprovalTests, or run from the command line
+## Refactoring Approach
 
-## Fixture
+Before modifying the legacy code, I first added characterization tests in order to preserve the existing behavior and create a safety net for the refactoring process.
 
-To run the fixture from the php directory:
+The refactoring was done gradually in small, incremental steps while continuously running the test suite.
 
-```shell
-php .\fixtures\texttest_fixture.php 10
+The improvements included:
+
+- Extracting helper methods
+- Removing duplicated logic
+- Reducing nested conditionals
+- Improving naming
+- Replacing magic strings with constants
+- Separating item-specific business logic
+- Lowering overall complexity
+- Improving readability and maintainability
+
+Examples of extracted methods:
+
+- `increaseQuality()`
+- `decreaseQuality()`
+- `decreaseSellIn()`
+- `updateBackstagePass()`
+- `updateExpiredItem()`
+- `updateConjured()`
+
+The refactoring phase was completed before implementing any new functionality.
+
+---
+
+## Conjured Items
+
+Support was added for:
+
+```text
+Conjured Mana Cake
 ```
 
-Change **10** to the required days.
+Business rules:
+
+- Conjured items decrease in quality twice as fast as normal items
+- After the sell date has passed, quality decreases by 4 per day
+
+The new feature was implemented only after the refactoring phase was completed and fully covered by tests.
+
+---
 
 ## Testing
 
-PHPUnit is configured for testing, a composer script has been provided. To run the unit tests, from the root of the PHP
-project run:
+The project includes:
 
-```shell script
+- Characterization tests
+- Unit tests
+- Approval tests
+
+The tests cover the main business rules for:
+
+- Normal items
+- Aged Brie
+- Sulfuras
+- Backstage passes
+- Conjured items
+
+All tests are currently passing.
+
+### Run all tests
+
+```bash
 composer tests
 ```
 
-A Windows a batch file has been created, like an alias on Linux/Mac (e.g. `alias pu="composer tests"`), the same
-PHPUnit `composer tests` can be run:
+### Run PHPUnit directly
 
-```shell script
-pu.bat
+```bash
+vendor/bin/phpunit tests/GildedRoseTest.php
 ```
 
-### Tests with Coverage Report
+### Run fixture
 
-To run all test and generate a html coverage report run:
-
-```shell script
-composer test-coverage
+```bash
+php .\fixtures\texttest_fixture.php 10
 ```
 
-The test-coverage report will be created in /builds, it is best viewed by opening /builds/**index.html** in your
-browser.
+---
 
-The [XDEbug](https://xdebug.org/download) extension is required for generating the coverage report.
+## Code Standards & Static Analysis
 
-## Code Standard
+### Run ECS checks
 
-Easy Coding Standard (ECS) is configured for style and code standards, **PSR-12** is used. The current code is not upto
-standard!
-
-### Check Code
-
-To check code, but not fix errors:
-
-```shell script
+```bash
 composer check-cs
-``` 
-
-On Windows a batch file has been created, like an alias on Linux/Mac (e.g. `alias cc="composer check-cs"`), the same
-PHPUnit `composer check-cs` can be run:
-
-```shell script
-cc.bat
 ```
 
-### Fix Code
+### Fix coding style automatically
 
-ECS provides may code fixes, automatically, if advised to run --fix, the following script can be run:
-
-```shell script
+```bash
 composer fix-cs
 ```
 
-On Windows a batch file has been created, like an alias on Linux/Mac (e.g. `alias fc="composer fix-cs"`), the same
-PHPUnit `composer fix-cs` can be run:
+### Run PHPStan
 
-```shell script
-fc.bat
-```
-
-## Static Analysis
-
-PHPStan is used to run static analysis checks:
-
-```shell script
+```bash
 composer phpstan
 ```
 
-On Windows a batch file has been created, like an alias on Linux/Mac (e.g. `alias ps="composer phpstan"`), the same
-PHPUnit `composer phpstan` can be run:
+---
 
-```shell script
-ps.bat
-```
+## Git Workflow
 
-**Happy coding**!
+Development was done using multiple branches:
+
+- `refactor/gilded-rose`
+- `feature/add-conjured-support`
+
+Changes were merged into `main` only after all tests passed successfully.
+
+The commit history reflects the incremental refactoring process and feature implementation.
+
+---
+
+## Possible Future Improvements
+
+Possible future improvements could include replacing conditional item handling with a Strategy Pattern or dedicated updater classes per item type.
