@@ -6,6 +6,9 @@ namespace GildedRose;
 
 final class GildedRose
 {
+    private const AGED_BRIE = 'Aged Brie';
+    private const BACKSTAGE_PASS = 'Backstage passes to a TAFKAL80ETC concert';
+    private const SULFURAS = 'Sulfuras, Hand of Ragnaros';
     /**
      * @param Item[] $items
      */
@@ -45,15 +48,15 @@ final class GildedRose
     }
 
     private function isAgedBrie(Item $item): bool{
-        return $item->name === 'Aged Brie';
+        return $item->name === self::AGED_BRIE;
     }
 
     private function isBackstagePass(Item $item): bool{
-        return $item->name === 'Backstage passes to a TAFKAL80ETC concert';
+        return $item->name ===  self::BACKSTAGE_PASS;
     }
 
     private function isSulfuras(Item $item): bool{
-        return $item->name === 'Sulfuras, Hand of Ragnaros';
+        return $item->name ===  self::SULFURAS;
     }
 
     private function updateBackstagePass(Item $item): void{
