@@ -7,8 +7,11 @@ namespace GildedRose;
 final class GildedRose
 {
     private const AGED_BRIE = 'Aged Brie';
+
     private const BACKSTAGE_PASS = 'Backstage passes to a TAFKAL80ETC concert';
+
     private const SULFURAS = 'Sulfuras, Hand of Ragnaros';
+
     private const CONJURED = 'Conjured Mana Cake';
 
     /**
@@ -33,21 +36,21 @@ final class GildedRose
 
     private function decreaseQuality(Item $item): void
     {
-        if($item->quality > 0 ){
+        if ($item->quality > 0) {
             $item->quality--;
         }
     }
 
     private function increaseQuality(Item $item): void
     {
-        if($item->quality < 50 ){
+        if ($item->quality < 50) {
             $item->quality++;
         }
     }
 
     private function decreaseSellIn(Item $item): void
     {
-        if(!$this->isSulfuras($item)){
+        if (! $this->isSulfuras($item)) {
             $item->sellIn--;
         }
     }
@@ -81,7 +84,7 @@ final class GildedRose
     private function updateBackstagePass(Item $item): void
     {
         $this->increaseQuality($item);
-        
+
         if ($item->sellIn < 11) {
             $this->increaseQuality($item);
         }
@@ -92,44 +95,44 @@ final class GildedRose
 
     private function updateExpiredItem(Item $item): void
     {
-        if($this->isAgedBrie($item)){
+        if ($this->isAgedBrie($item)) {
             $this->increaseQuality($item);
             return;
         }
-        
+
         if ($this->isBackstagePass($item)) {
             $item->quality = 0;
             return;
         }
 
-        if($this->isConjured($item)){
+        if ($this->isConjured($item)) {
             $this->updateConjured($item);
             return;
         }
 
-        if (!$this->isSulfuras($item)) {
+        if (! $this->isSulfuras($item)) {
             $this->decreaseQuality($item);
         }
     }
 
     private function updateItemBeforeSellInChange(Item $item): void
     {
-        if($this->isBackstagePass($item)){
+        if ($this->isBackstagePass($item)) {
             $this->updateBackstagePass($item);
             return;
         }
-        
-        if($this->isAgedBrie($item)){
+
+        if ($this->isAgedBrie($item)) {
             $this->increaseQuality($item);
             return;
         }
 
-        if($this->isConjured($item)){
+        if ($this->isConjured($item)) {
             $this->updateConjured($item);
             return;
         }
 
-        if (!$this->isSulfuras($item)) {
+        if (! $this->isSulfuras($item)) {
             $this->decreaseQuality($item);
         }
     }
