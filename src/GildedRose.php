@@ -32,17 +32,7 @@ final class GildedRose
             $this->decreaseSellIn($item);
 
             if ($item->sellIn < 0) {
-                if (!$this->isAgedBrie($item)) {
-                    if (!$this->isBackstagePass($item)) {
-                        if (!$this->isSulfuras($item)) {
-                            $this->decreaseQuality($item);
-                        }
-                    } else {
-                        $item->quality = $item->quality - $item->quality;
-                    }
-                } else {
-                    $this->increaseQuality($item);
-                }
+                $this->updateExpiredItem($item);
             }
         }
     }
@@ -87,4 +77,19 @@ final class GildedRose
             $this->increaseQuality($item);
         }
     }
+
+    private function updateExpiredItem(Item $item): void{
+        if($this->isAgedBrie($item)){
+            $this->increaseQuality($item);
+        }
+        
+       if ($this->isBackstagePass($item)) {
+            $item->quality = 0;
+        }
+
+        if (!$this->isSulfuras($item)) {
+            $this->decreaseQuality($item);
+        }
+    }
+
 }
