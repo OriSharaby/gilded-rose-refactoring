@@ -52,11 +52,11 @@ final class GildedRose
     }
 
     private function isBackstagePass(Item $item): bool{
-        return $item->name ===  self::BACKSTAGE_PASS;
+        return $item->name === self::BACKSTAGE_PASS;
     }
 
     private function isSulfuras(Item $item): bool{
-        return $item->name ===  self::SULFURAS;
+        return $item->name === self::SULFURAS;
     }
 
     private function updateBackstagePass(Item $item): void{
